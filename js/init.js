@@ -40,3 +40,46 @@ let getJSONData = function(url){
         return result;
     });
 }
+
+// AHORA AGREGO COD PARA EDITAR BARRA
+
+let array = [];
+
+function mostrar(){
+  let contenido = ``
+  if(localStorage.getItem('userName')){
+      array = JSON.parse(localStorage.getItem('userName'))
+
+      array.forEach(element => {
+          contenido += `<h3>${element}</h3>`
+      });
+  } else {
+      localStorage.setItem('userName', '')
+  }
+  document.getElementById('username').innerHTML = contenido;
+}
+
+
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  mostrar();
+  //función para agregar el texto del input
+  document.getElementById('regBtn').addEventListener("click", (e)=>{
+      e.preventDefault();
+      let item = document.getElementById('email')
+      if(item.value){
+          array.push(item.value)
+          localStorage.setItem('userName',JSON.stringify(array));
+          mostrar();
+          item.value = '';
+      }
+  })
+  
+  //función para limpiar el localstorage y el contenedor
+  document.getElementById('limpiar').addEventListener('click', (e)=>{
+      e.preventDefault();
+      localStorage.setItem('userName','')
+      array = [];
+      mostrar();
+  })
+})
